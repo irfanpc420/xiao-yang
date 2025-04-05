@@ -10,33 +10,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const artistSocialMedia = document.getElementById('artist-social-media');
     const artistAchievements = document.getElementById('artist-achievements');
 
-    // Load artist data from Info files
-    const artists = [
-        { file: '/Info/jimin.js', name: 'Jimin' },
-        { file: '/Info/jk.js', name: 'Jungkook' }
-    ];
+    // List of artist files in the Info folder
+    const artistFiles = ['jimin.js', 'jk.js', 'v.js']; // Add new files here
 
-    // Dynamically create buttons for each artist
-    artists.forEach(artist => {
-        const button = document.createElement('button');
-        button.textContent = artist.name;
-        button.onclick = () => loadArtistInfo(artist.file);
-        artistListDiv.appendChild(button);
-    });
-
-    // Function to load artist info
-    function loadArtistInfo(filePath) {
-        fetch(filePath)
+    // Dynamically load artists from Info folder
+    artistFiles.forEach(file => {
+        fetch(`/Info/${file}`)
             .then(response => response.text())
             .then(data => {
                 eval(data); // Evaluate the JavaScript code from the file
-                if (filePath.includes('jimin')) {
-                    displayArtistInfo(jiminData);
-                } else if (filePath.includes('jk')) {
-                    displayArtistInfo(jkData);
-                }
+                const artistKey = file.split('.')[0]; // Extract artist name from file name
+                const artistData = window[`${artistKey}Data`]; // Access global variable
+                createArtistButton(artistData);
             })
-            .catch(error => console.error('Error loading artist info:', error));
+            .catch(error => console.error(`Error loading ${file}:`, error));
+    });
+
+    // Function to create artist buttons
+    function createArtistButton(artist) {
+        const button = document.createElement('button');
+        button.textContent = artist.name;
+        button.onclick = () => displayArtistInfo(artist);
+        artistListDiv.appendChild(button);
     }
 
     // Function to display artist info
@@ -70,8 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
             artistAchievements.appendChild(listItem);
         });
 
-        // Add 3D effect
-        artistInfoDiv.style.transform = 'translateZ(100px)';
+        // Show artist info section
         artistInfoDiv.classList.remove('hidden');
         artistInfoDiv.classList.add('show');
     }
