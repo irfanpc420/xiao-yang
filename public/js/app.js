@@ -1,87 +1,54 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const actorsListElement = document.getElementById('actors-list');
-    const actorDetailsElement = document.getElementById('actor-details');
-    const backButton = document.getElementById('back-button');
+document.addEventListener('DOMContentLoaded', function () {
+    // Create an array of actor names (this list will grow as you add more actor files)
+    const actors = ['jimin', 'jk'];  
 
-    // Function to load actors from the API
-    function loadActors() {
-        fetch('/api/actors')
+    // Load actor names dynamically
+    actors.forEach(actor => {
+        fetch(`/actors/${actor}`)
             .then(response => response.json())
-            .then(actors => {
-                actorsListElement.innerHTML = ''; // Clear the actors list
+            .then(data => {
+                const actorDiv = document.createElement('div');
+                actorDiv.classList.add('actor-card');
+                actorDiv.innerHTML = `
+                    <div class="actor-name">${data.name}</div>
+                    <div class="actor-info">
+                        <p>${data.bio}</p>
+                        <p><strong>Born:</strong> ${data.dateOfBirth}</p>
+                        <p><strong>Nationality:</strong> ${data.nationality}</p>
+                        <p><strong>Position:</strong> ${data.position}</p>
+                        <p><strong>Albums:</strong> ${data.albums.join(", ")}</p>
+                        <a href="${data.socialLinks.twitter}" target="_blank">Twitter</a>
+                        <a href="${data.socialLinks.instagram}" target="_blank">Instagram</a>
+                        <a href="${data.socialLinks.youtube}" target="_blank">YouTube</a>
+                        <img src="${data.imageURL}" alt="${data.name}" class="actor-image" />
+                    </div>
+                `;
+                document.querySelector('.actors-list').appendChild(actorDiv);
 
-                // Render actors
-                actors.forEach(actor => {
-                    const actorCard = document.createElement('div');
-                    actorCard.classList.add('actor-card');
-                    actorCard.innerHTML = `
-                        <div class="actor-name">${actor.name}</div>
-                    `;
-
-                    // Add click event to show actor details
-                    actorCard.addEventListener('click', () => {
-                        showActorDetails(actor);
-                    });
-
-                    actorsListElement.appendChild(actorCard);
+                // Add click event to show actor details
+                actorDiv.addEventListener('click', function () {
+                    showActorDetails(data);
                 });
-            })
-            .catch(err => {
-                console.error('Error fetching actors:', err);
             });
-    }
-
-    // Function to show actor details
-    function showActorDetails(actor) {
-        actorDetailsElement.innerHTML = `
-            <h2>${actor.name}</h2>
-            <p><strong>Bio:</strong> ${actor.bio}</p>
-            <p><strong>Birth Date:</strong> ${actor.birthDate}</p>
-            <p><strong>Nationality:</strong> ${actor.nationality}</p>
-            <p><strong>Genres:</strong> ${actor.genres.join(', ')}</p>
-            <p><strong>Debut:</strong> ${actor.debut}</p>
-            <p><strong>Achievements:</strong> ${actor.achievements.join(', ')}</p>
-            <div id="photos-section">
-                <button id="see-photos-btn">See Photos</button>
-                <div id="photos-container"></div>
-                <p id="no-photos-message" class="hidden">This actor has no photos.</p>
-            </div>
-        `;
-
-        // Display or hide photos
-        const photosContainer = document.getElementById('photos-container');
-        const seePhotosBtn = document.getElementById('see-photos-btn');
-        const noPhotosMessage = document.getElementById('no-photos-message');
-
-        // Try to fetch the actor's image URL
-        fetch(`/images/${actor.name.toLowerCase()}.js`)
-            .then(response => response.text())
-            .then(imageUrl => {
-                if (imageUrl) {
-                    const imgElement = document.createElement('img');
-                    imgElement.src = imageUrl;
-                    photosContainer.appendChild(imgElement);
-                } else {
-                    noPhotosMessage.classList.remove('hidden');
-                }
-            })
-            .catch(() => {
-                noPhotosMessage.classList.remove('hidden');
-            });
-
-        // Show the actor details section and hide the actors list
-        actorsListElement.style.display = 'none';
-        actorDetailsElement.style.display = 'block';
-        backButton.classList.remove('hidden');
-    }
-
-    // Function to go back to the actor list
-    backButton.addEventListener('click', () => {
-        actorDetailsElement.style.display = 'none';
-        actorsListElement.style.display = 'flex';
-        backButton.classList.add('hidden');
     });
 
-    // Load actors when the page is loaded
-    loadActors();
+    function showActorDetails(actorData) {
+        const actorDetails = document.querySelector('.actor-details');
+        const detailsContent = `
+            <h2>${actorData.name}</h2>
+            <p>${actorData.bio}</p>
+            <p><strong>Born:</strong> ${actorData.dateOfBirth}</p>
+            <p><strong>Nationality:</strong> ${actorData.nationality}</p>
+            <p><strong>Position:</strong> ${actorData.position}</p>
+            <p><strong>Albums:</strong> ${actorData.albums.join(", ")}</p>
+            <p><strong>Social Links:</strong></p>
+            <a href="${actorData.socialLinks.twitter}" target="_blank">Twitter</a>
+            <a href="${actorData.socialLinks.instagram}" target="_blank">Instagram</a>
+            <a href="${actorData.socialLinks.youtube}" target="_blank">YouTube</a>
+            <img src="${actorData.imageURL}" alt="${actorData.name}" />
+        `;
+        actorDetails.innerHTML = detailsContent;
+        actorDetails.classList.remove('hidden');
+        document.querySelector('#back-button').classList.remove('hidden');
+    }
 });
