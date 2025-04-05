@@ -1,10 +1,6 @@
-// jk.js
-const jkData = {
-    name: "Jungkook",
-    description: "A rising star with a unique voice.",
-    image: "/images/jk.jpg"
-};.exports = {
-  name: 'Jungkook',
-  bio: 'The golden maknae of BTS, known for his vocals.',
-  image: 'jk.jpg',
+// jimin.js
+const jiminData = {
+    name: "Jimin",
+    description: "A talented artist and performer.",
+    image: "/images/jimin.jpg"
 };
