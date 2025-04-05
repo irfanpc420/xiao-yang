@@ -16,12 +16,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // Dynamically load artists from Info folder
     artistFiles.forEach(file => {
         fetch(`/Info/${file}`)
-            .then(response => response.text())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`File not found: ${file}`);
+                }
+                return response.text();
+            })
             .then(data => {
                 eval(data); // Evaluate the JavaScript code from the file
                 const artistKey = file.split('.')[0]; // Extract artist name from file name
                 const artistData = window[`${artistKey}Data`]; // Access global variable
-                createArtistButton(artistData);
+                if (artistData) {
+                    createArtistButton(artistData);
+                } else {
+                    console.error(`Invalid data format in ${file}`);
+                }
             })
             .catch(error => console.error(`Error loading ${file}:`, error));
     });
