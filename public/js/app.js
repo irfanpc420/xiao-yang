@@ -1,36 +1,33 @@
-// Fetch and display actor list
-fetch('/api/actors')
-  .then(response => response.json())
-  .then(actors => {
-    const actorList = document.getElementById('actorList');
-    actors.forEach(actor => {
-      const li = document.createElement('li');
-      li.textContent = actor.name;
-      li.addEventListener('click', () => loadActorInfo(actor.id));
-      actorList.appendChild(li);
-    });
-  })
-  .catch(error => console.error('Error fetching actors:', error));
+// Dynamically Load Data from Info Files
+document.addEventListener('DOMContentLoaded', () => {
+    const contentDiv = document.getElementById('content');
 
-// Load actor details by ID
-function loadActorInfo(actorId) {
-  fetch(`/api/actors/${actorId}`)
-    .then(response => response.json())
-    .then(actor => {
-      const actorInfo = document.getElementById('actorInfo');
-      actorInfo.innerHTML = `
-        <div class="actor-card">
-          <!-- Front side -->
-          <div class="front">
-            <img src="${actor.image}" alt="${actor.name}" class="actor-image">
-          </div>
-          <!-- Back side -->
-          <div class="back">
-            <h2 class="actor-name">${actor.name}</h2>
-            <p class="actor-bio">${actor.bio}</p>
-          </div>
-        </div>
-      `;
-    })
-    .catch(error => console.error('Error fetching actor details:', error));
-}
+    // Load data from jimin.js
+    fetch('/Info/jimin.js')
+        .then(response => response.text())
+        .then(data => {
+            eval(data); // Evaluate the JavaScript code from jimin.js
+            displayData(jiminData);
+        })
+        .catch(error => console.error('Error loading jimin.js:', error));
+
+    // Function to display data
+    function displayData(data) {
+        contentDiv.innerHTML = `
+            <h2>${data.name}</h2>
+            <p>${data.description}</p>
+            <img src="${data.image}" alt="${data.name}" style="max-width: 100%; height: auto;">
+        `;
+    }
+
+    // Example: Change data after 5 seconds
+    setTimeout(() => {
+        fetch('/Info/jk.js')
+            .then(response => response.text())
+            .then(data => {
+                eval(data); // Evaluate the JavaScript code from jk.js
+                displayData(jkData);
+            })
+            .catch(error => console.error('Error loading jk.js:', error));
+    }, 5000);
+});
