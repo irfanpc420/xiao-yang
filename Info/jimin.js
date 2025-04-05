@@ -1,5 +1,6 @@
-module.exports = {
-  name: 'Jimin',
-  bio: 'A talented singer and dancer from BTS.',
-  image: 'jimin.jpg',
+// jimin.js
+const jiminData = {
+    name: "Jimin",
+    description: "A talented artist and performer.",
+    image: "/images/jimin.jpg"
 };
