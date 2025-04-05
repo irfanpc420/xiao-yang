@@ -1,33 +1,56 @@
-// Dynamically Load Data from Info Files
 document.addEventListener('DOMContentLoaded', () => {
-    const contentDiv = document.getElementById('content');
+    const artistListDiv = document.getElementById('artist-list');
+    const artistInfoDiv = document.getElementById('artist-info');
+    const backButton = document.getElementById('back-button');
+    const artistName = document.getElementById('artist-name');
+    const artistDescription = document.getElementById('artist-description');
+    const artistImage = document.getElementById('artist-image');
 
-    // Load data from jimin.js
-    fetch('/Info/jimin.js')
-        .then(response => response.text())
-        .then(data => {
-            eval(data); // Evaluate the JavaScript code from jimin.js
-            displayData(jiminData);
-        })
-        .catch(error => console.error('Error loading jimin.js:', error));
+    // Load artist data from Info files
+    const artists = [
+        { file: '/Info/jimin.js', name: 'Jimin' },
+        { file: '/Info/jk.js', name: 'Jungkook' }
+    ];
 
-    // Function to display data
-    function displayData(data) {
-        contentDiv.innerHTML = `
-            <h2>${data.name}</h2>
-            <p>${data.description}</p>
-            <img src="${data.image}" alt="${data.name}" style="max-width: 100%; height: auto;">
-        `;
-    }
+    // Dynamically create buttons for each artist
+    artists.forEach(artist => {
+        const button = document.createElement('button');
+        button.textContent = artist.name;
+        button.onclick = () => loadArtistInfo(artist.file);
+        artistListDiv.appendChild(button);
+    });
 
-    // Example: Change data after 5 seconds
-    setTimeout(() => {
-        fetch('/Info/jk.js')
+    // Function to load artist info
+    function loadArtistInfo(filePath) {
+        fetch(filePath)
             .then(response => response.text())
             .then(data => {
-                eval(data); // Evaluate the JavaScript code from jk.js
-                displayData(jkData);
+                eval(data); // Evaluate the JavaScript code from the file
+                if (filePath.includes('jimin')) {
+                    displayArtistInfo(jiminData);
+                } else if (filePath.includes('jk')) {
+                    displayArtistInfo(jkData);
+                }
             })
-            .catch(error => console.error('Error loading jk.js:', error));
-    }, 5000);
+            .catch(error => console.error('Error loading artist info:', error));
+    }
+
+    // Function to display artist info
+    function displayArtistInfo(data) {
+        artistName.textContent = data.name;
+        artistDescription.textContent = data.description;
+        artistImage.src = data.image;
+        artistImage.alt = data.name;
+
+        // Add 3D effect
+        artistInfoDiv.style.transform = 'translateZ(100px)';
+        artistInfoDiv.classList.remove('hidden');
+        artistInfoDiv.classList.add('show');
+    }
+
+    // Back button functionality
+    backButton.onclick = () => {
+        artistInfoDiv.classList.remove('show');
+        artistInfoDiv.classList.add('hidden');
+    };
 });
