@@ -1,4 +1,3 @@
-// Fetch the actors' data from the API and render the list of actors
 document.addEventListener('DOMContentLoaded', () => {
     const actorsListElement = document.getElementById('actors-list');
     const actorDetailsElement = document.getElementById('actor-details');
@@ -16,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     const actorCard = document.createElement('div');
                     actorCard.classList.add('actor-card');
                     actorCard.innerHTML = `
-                        <img src="${actor.imageUrl}" alt="${actor.name}">
                         <div class="actor-name">${actor.name}</div>
                     `;
 
@@ -36,10 +34,40 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to show actor details
     function showActorDetails(actor) {
         actorDetailsElement.innerHTML = `
-            <img src="${actor.imageUrl}" alt="${actor.name}">
             <h2>${actor.name}</h2>
-            <p>${actor.bio}</p>
+            <p><strong>Bio:</strong> ${actor.bio}</p>
+            <p><strong>Birth Date:</strong> ${actor.birthDate}</p>
+            <p><strong>Nationality:</strong> ${actor.nationality}</p>
+            <p><strong>Genres:</strong> ${actor.genres.join(', ')}</p>
+            <p><strong>Debut:</strong> ${actor.debut}</p>
+            <p><strong>Achievements:</strong> ${actor.achievements.join(', ')}</p>
+            <div id="photos-section">
+                <button id="see-photos-btn">See Photos</button>
+                <div id="photos-container"></div>
+                <p id="no-photos-message" class="hidden">This actor has no photos.</p>
+            </div>
         `;
+
+        // Display or hide photos
+        const photosContainer = document.getElementById('photos-container');
+        const seePhotosBtn = document.getElementById('see-photos-btn');
+        const noPhotosMessage = document.getElementById('no-photos-message');
+
+        // Try to fetch the actor's image URL
+        fetch(`/images/${actor.name.toLowerCase()}.js`)
+            .then(response => response.text())
+            .then(imageUrl => {
+                if (imageUrl) {
+                    const imgElement = document.createElement('img');
+                    imgElement.src = imageUrl;
+                    photosContainer.appendChild(imgElement);
+                } else {
+                    noPhotosMessage.classList.remove('hidden');
+                }
+            })
+            .catch(() => {
+                noPhotosMessage.classList.remove('hidden');
+            });
 
         // Show the actor details section and hide the actors list
         actorsListElement.style.display = 'none';
