@@ -1,19 +1,23 @@
-// jimin.js
-const jiminData = {
+module.exports = {
     name: "Jimin",
-    description: "A talented artist and performer.",
-    image: "/images/jimin.jpg",
-    birthdate: "October 13, 1995",
-    profession: "Singer, Songwriter, Dancer, Composer, Producer",
-    socialMedia: {
-        instagram: "https://www.instagram.com/j.m",
-        twitter: "https://twitter.com/jm",
-        youtube: "https://www.youtube.com/@jiminstudio"
-    },
-    achievements: [
-        "Debut as a member of BTS in 2013",
-        "Released solo singles like 'Promise' and 'Filter'",
-        "Collaborated with various global artists",
-        "Recognized for his unique vocal tone and stage presence"
-    ]
+    bio: "Jimin is a South Korean singer, dancer, and a member of BTS. He is known for his powerful vocals, emotional performances, and charming personality.",
+    dateOfBirth: "October 13, 1995",
+    nationality: "South Korean",
+    position: "Lead Vocalist, Lead Dancer",
+    albums: [
+        "2 Cool 4 Skool",
+        "O!RUL8,2?",
+        "Dark & Wild",
+        "The Most Beautiful Moment in Life: Part 1",
+        "WINGS",
+        "Love Yourself: Her",
+        "Map of the Soul: Persona",
+        "BE"
+    ],
+    imageURL: "https://i.postimg.cc/y6wMrD0F/882064a604b04022235eaa2526b0b5ab-les-bts-bts-wallpaper.jpg",
+    socialLinks: {
+        twitter: "https://twitter.com/bts_twt",
+        instagram: "https://www.instagram.com/bts.bighitofficial/",
+        youtube: "https://www.youtube.com/c/BigHitLabels"
+    }
 };
