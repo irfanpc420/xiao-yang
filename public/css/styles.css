@@ -3,13 +3,15 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f4f4f9; /* Soft background color */
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2); /* Gradient background */
+  color: #333;
 }
 
 .container {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
+  text-align: center;
 }
 
 .actor-list {
@@ -22,6 +24,7 @@ body {
   cursor: pointer;
   color: blue;
   text-decoration: underline;
+  font-size: 18px;
 }
 
 .actor-info {
@@ -34,7 +37,8 @@ body {
   height: 400px;
   position: relative;
   transform-style: preserve-3d; /* Preserve 3D transformations */
-  transition: transform 0.5s ease;
+  transition: transform 0.6s ease;
+  margin: 0 auto;
 }
 
 .actor-card:hover {
@@ -46,33 +50,37 @@ body {
   width: 100%;
   height: 100%;
   backface-visibility: hidden; /* Hide the back face when rotating */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .front {
   background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .back {
   background-color: #e0e0e0;
   transform: rotateY(180deg); /* Start with the back face facing away */
-  border-radius: 8px;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .actor-name {
   font-size: 24px;
   font-weight: bold;
-  margin: 20px;
+  margin-bottom: 10px;
 }
 
 .actor-bio {
   font-size: 16px;
-  margin: 10px 20px;
+  line-height: 1.5;
 }
 
 .actor-image {
   width: 100%;
   height: auto;
-  border-radius: 8px;
+  border-radius: 10px;
 }
