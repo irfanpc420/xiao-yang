@@ -1,19 +1,19 @@
 module.exports = {
     name: "Jimin",
-    imageUrl: "/images/jk.jpg",
-    bio: "Jimin is a South Korean singer, dancer, and member of the global supergroup BTS. Known for his exceptional vocal range, captivating performances, and charismatic personality, Jimin has won the hearts of millions around the world.",
+    imageUrl: "/images/jimin.jpg",
+    bio: "Jimin is a South Korean singer, dancer, and one of the lead vocalists of BTS. His talent and stage presence have garnered immense admiration from fans worldwide. He is known for his graceful dancing and unique vocal tone.",
     birthDate: "October 13, 1995",
     nationality: "South Korean",
     genres: ["Pop", "R&B", "Dance"],
     debut: "2013",
     socialLinks: {
-        instagram: "https://www.instagram.com/jimin_bts/",
-        twitter: "https://twitter.com/BTS_twt",
-        youtube: "https://www.youtube.com/channel/UCOh3IerRGqQy6gk2VXA4pRA"
+        instagram: "https://www.instagram.com/jimin_official/",
+        twitter: "https://twitter.com/JiminOfficial",
+        youtube: "https://www.youtube.com/channel/UC9vH5i2y33LgC4mboJibGbA"
     },
     achievements: [
-        "Billboard Hot 100 hits",
-        "MAMA Best Dance Performance Award",
-        "Multiple Gold and Platinum certifications"
+        "MAMA Best Male Artist",
+        "Billboard Music Awards",
+        "Millions of album sales worldwide"
     ]
 };
