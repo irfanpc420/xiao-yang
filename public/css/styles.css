@@ -1,7 +1,15 @@
 /* Add your styles here */
 body {
   font-family: Arial, sans-serif;
-  margin: 20px;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f9; /* Soft background color */
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .actor-list {
@@ -18,9 +26,53 @@ body {
 
 .actor-info {
   margin-top: 20px;
+  perspective: 1000px; /* Enable 3D transformations */
 }
 
-img {
-  max-width: 200px;
-  margin-top: 10px;
+.actor-card {
+  width: 300px;
+  height: 400px;
+  position: relative;
+  transform-style: preserve-3d; /* Preserve 3D transformations */
+  transition: transform 0.5s ease;
+}
+
+.actor-card:hover {
+  transform: rotateY(180deg); /* Rotate the card on hover */
+}
+
+.front, .back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden; /* Hide the back face when rotating */
+}
+
+.front {
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.back {
+  background-color: #e0e0e0;
+  transform: rotateY(180deg); /* Start with the back face facing away */
+  border-radius: 8px;
+}
+
+.actor-name {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 20px;
+}
+
+.actor-bio {
+  font-size: 16px;
+  margin: 10px 20px;
+}
+
+.actor-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
 }
