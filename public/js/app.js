@@ -19,9 +19,17 @@ function loadActorInfo(actorId) {
     .then(actor => {
       const actorInfo = document.getElementById('actorInfo');
       actorInfo.innerHTML = `
-        <h2>${actor.name}</h2>
-        <p>${actor.bio}</p>
-        <img src='${actor.image}' alt='${actor.name}'>
+        <div class="actor-card">
+          <!-- Front side -->
+          <div class="front">
+            <img src="${actor.image}" alt="${actor.name}" class="actor-image">
+          </div>
+          <!-- Back side -->
+          <div class="back">
+            <h2 class="actor-name">${actor.name}</h2>
+            <p class="actor-bio">${actor.bio}</p>
+          </div>
+        </div>
       `;
     })
     .catch(error => console.error('Error fetching actor details:', error));
