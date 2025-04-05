@@ -3,15 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Data Loading</title>
+    <title>3D Artist Info</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
     <header>
-        <h1>Welcome to My Website</h1>
+        <h1>Artist Information</h1>
     </header>
     <main>
-        <div id="content"></div>
+        <div id="artist-list">
+            <!-- Artist names will be dynamically loaded here -->
+        </div>
+        <div id="artist-info" class="hidden">
+            <button id="back-button">Back to Main</button>
+            <h2 id="artist-name"></h2>
+            <p id="artist-description"></p>
+            <img id="artist-image" src="" alt="Artist Image">
+        </div>
     </main>
     <footer>
         <p>&copy; 2025 My Website</p>
