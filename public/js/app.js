@@ -1,54 +1,40 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // Create an array of actor names (this list will grow as you add more actor files)
-    const actors = ['jimin', 'jk'];  
+async function loadActors() {
+  const res = await fetch('/api/actors');
+  const actors = await res.json();
 
-    // Load actor names dynamically
-    actors.forEach(actor => {
-        fetch(`/actors/${actor}`)
-            .then(response => response.json())
-            .then(data => {
-                const actorDiv = document.createElement('div');
-                actorDiv.classList.add('actor-card');
-                actorDiv.innerHTML = `
-                    <div class="actor-name">${data.name}</div>
-                    <div class="actor-info">
-                        <p>${data.bio}</p>
-                        <p><strong>Born:</strong> ${data.dateOfBirth}</p>
-                        <p><strong>Nationality:</strong> ${data.nationality}</p>
-                        <p><strong>Position:</strong> ${data.position}</p>
-                        <p><strong>Albums:</strong> ${data.albums.join(", ")}</p>
-                        <a href="${data.socialLinks.twitter}" target="_blank">Twitter</a>
-                        <a href="${data.socialLinks.instagram}" target="_blank">Instagram</a>
-                        <a href="${data.socialLinks.youtube}" target="_blank">YouTube</a>
-                        <img src="${data.imageURL}" alt="${data.name}" class="actor-image" />
-                    </div>
-                `;
-                document.querySelector('.actors-list').appendChild(actorDiv);
+  const container = document.getElementById('actor-list');
+  container.innerHTML = '';
 
-                // Add click event to show actor details
-                actorDiv.addEventListener('click', function () {
-                    showActorDetails(data);
-                });
-            });
-    });
+  actors.forEach(actor => {
+    const card = document.createElement('div');
+    card.className = 'actor-card';
+    card.innerHTML = `
+      <img src="${actor.image}" alt="${actor.name}" class="thumb"/>
+      <p>${actor.name}</p>
+    `;
+    card.onclick = () => showDetails(actor.name);
+    container.appendChild(card);
+  });
+}
 
-    function showActorDetails(actorData) {
-        const actorDetails = document.querySelector('.actor-details');
-        const detailsContent = `
-            <h2>${actorData.name}</h2>
-            <p>${actorData.bio}</p>
-            <p><strong>Born:</strong> ${actorData.dateOfBirth}</p>
-            <p><strong>Nationality:</strong> ${actorData.nationality}</p>
-            <p><strong>Position:</strong> ${actorData.position}</p>
-            <p><strong>Albums:</strong> ${actorData.albums.join(", ")}</p>
-            <p><strong>Social Links:</strong></p>
-            <a href="${actorData.socialLinks.twitter}" target="_blank">Twitter</a>
-            <a href="${actorData.socialLinks.instagram}" target="_blank">Instagram</a>
-            <a href="${actorData.socialLinks.youtube}" target="_blank">YouTube</a>
-            <img src="${actorData.imageURL}" alt="${actorData.name}" />
-        `;
-        actorDetails.innerHTML = detailsContent;
-        actorDetails.classList.remove('hidden');
-        document.querySelector('#back-button').classList.remove('hidden');
-    }
-});
+async function showDetails(name) {
+  const res = await fetch(`/api/actors/${name}`);
+  const actor = await res.json();
+
+  const detailBox = document.getElementById('actor-detail');
+  detailBox.innerHTML = `
+    <h2>${name}</h2>
+    <img src="${actor.image}" class="large"/>
+    <p>${actor.info}</p>
+    <button onclick="showPhotos('${name}')">See more photos</button>
+  `;
+}
+
+function showPhotos(name) {
+  const img = document.createElement('img');
+  img.src = `images/${name}.js`; // Assuming it's a URL exported from JS
+  document.getElementById('photo-gallery').innerHTML = '';
+  document.getElementById('photo-gallery').appendChild(img);
+}
+
+window.onload = loadActors;
