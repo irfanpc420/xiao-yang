@@ -1,23 +1,11 @@
 const express = require('express');
-const path = require('path');
-const dataLoader = require('./dataLoader');
 const app = express();
-const port = 3000;
+const actorsRouter = require('./routes/actors');
 
-// Middleware for serving static files from public folder
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static('public'));
+app.use('/api/actors', actorsRouter);
 
-// Endpoint for fetching actor data
-app.get('/api/actors', (req, res) => {
-  const actors = dataLoader.loadActors();
-  res.json(actors);
-});
-
-// Fallback route to serve index.html for any other route
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
-});
-
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
