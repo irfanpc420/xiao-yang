@@ -1,11 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const dataLoader = require('../dataLoader');
+const { getActorInfo, getAllActors } = require('../dataLoader');
 
-// Get list of all actors
 router.get('/', (req, res) => {
-  const actors = dataLoader.loadActors();
-  res.json(actors);
+  const actors = getAllActors();
+  const actorData = actors.map(name => {
+    const data = getActorInfo(name);
+    return {
+      name,
+      image: data.image,
+    };
+  });
+  res.json(actorData);
+});
+
+router.get('/:name', (req, res) => {
+  const actor = getActorInfo(req.params.name);
+  if (actor) res.json(actor);
+  else res.status(404).send('Actor not found');
 });
 
 module.exports = router;
